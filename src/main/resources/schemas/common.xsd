@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="unqualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.xsd2model/common"
+>
+
+    <xs:complexType name="UserType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="login"/>
+            <xs:element type="xs:string" name="password"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

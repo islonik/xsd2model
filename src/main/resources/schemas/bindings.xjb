@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings
+        version="2.1"
+        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <jaxb:bindings schemaLocation="common.xsd" node="/xs:schema">
+        <jaxb:schemaBindings>
+            <jaxb:package name="org.examples.xsd2model.common"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="request.xsd" node="/xs:schema">
+        <jaxb:schemaBindings>
+            <jaxb:package name="org.examples.xsd2model.request"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="response.xsd" node="/xs:schema">
+        <jaxb:schemaBindings>
+            <jaxb:package name="org.examples.xsd2model.response"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+
+</jaxb:bindings>
