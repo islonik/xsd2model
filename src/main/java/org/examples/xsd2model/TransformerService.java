@@ -3,6 +3,7 @@ package org.examples.xsd2model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import javax.xml.bind.*;
 import javax.xml.stream.XMLInputFactory;
@@ -11,17 +12,31 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.function.Supplier;
 
 /**
  * Created by Nikita on 4/1/2016.
  */
 public class TransformerService {
 
+    /**
     private static final ObjectMapper mapper = new ObjectMapper();
+
     static {
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
     }
+    **/
+
+    // or
+    private static final ObjectMapper mapper = ((Supplier<ObjectMapper>) () -> {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        return mapper;
+    }).get();
 
     public static String object2xml(Object object) {
         final StringWriter stringWriter = new StringWriter();
