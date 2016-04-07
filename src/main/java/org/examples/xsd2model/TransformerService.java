@@ -38,6 +38,24 @@ public class TransformerService {
         return mapper;
     }).get();
 
+    public static String object2json(Object object) throws JsonProcessingException {
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+    }
+
+    public static Object json2object(String json, Class className) throws IOException {
+        return mapper.readValue(json, className);
+    }
+
+    public static boolean isJson(String json) {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            mapper.readTree(json);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
     public static String object2xml(Object object) {
         final StringWriter stringWriter = new StringWriter();
         JAXB.marshal(object, stringWriter);
@@ -54,14 +72,5 @@ public class TransformerService {
         Unmarshaller unmarshaller = context.createUnmarshaller();
         return unmarshaller.unmarshal(xmlReader, className).getValue();
     }
-
-    public static String object2json(Object object) throws JsonProcessingException {
-        return mapper.writeValueAsString(object);
-    }
-
-    public static Object json2object(String json, Class className) throws IOException {
-        return mapper.readValue(json, className);
-    }
-
 
 }

@@ -2,7 +2,9 @@
 <jaxb:bindings
         version="2.1"
         xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-        xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+>
 
     <jaxb:bindings schemaLocation="common.xsd" node="/xs:schema">
         <jaxb:schemaBindings>
@@ -20,6 +22,17 @@
         <jaxb:schemaBindings>
             <jaxb:package name="org.examples.xsd2model.response"/>
         </jaxb:schemaBindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="common.xsd">
+        <jaxb:bindings node="xs:complexType[@name='UserType']">
+            <jaxb:class/>
+            <inheritance:extends>org.examples.xsd2model.common.BaseType</inheritance:extends>
+        </jaxb:bindings>
+        <jaxb:bindings node="xs:complexType[@name='ServerType']">
+            <jaxb:class/>
+            <inheritance:extends>org.examples.xsd2model.common.BaseType</inheritance:extends>
+        </jaxb:bindings>
     </jaxb:bindings>
 
 </jaxb:bindings>

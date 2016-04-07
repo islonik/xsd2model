@@ -13,6 +13,7 @@
     <xs:complexType name="ResponseType">
         <xs:sequence>
             <xs:element type="com:UserType" name="user"/>
+            <xs:element type="com:ServerType" name="server"/>
             <xs:element type="xs:string" name="code"/>
             <xs:element type="xs:string" name="desc"/>
         </xs:sequence>

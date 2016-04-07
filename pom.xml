@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.examples.xsd2model</groupId>
-    <artifactId>xsd-generation</artifactId>
+    <artifactId>xsd2model</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -35,7 +35,8 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
+            <!-- Don't work with inheritance. RnD? -->
+            <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
                 <version>2.2</version>
@@ -59,9 +60,42 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin-->
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>0.13.1</version>
+                <executions>
+                    <execution>
+                        <id>schema1-generate</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <schemaDirectory>src/main/resources/schemas</schemaDirectory>
+                            <schemaIncludes>
+                                <include>common.xsd</include>
+                                <include>request.xsd</include>
+                                <include>response.xsd</include>
+                            </schemaIncludes>
+                            <bindingDirectory>src/main/resources/schemas</bindingDirectory>
+                            <generateDirectory>${project.build.directory}/generated-sources/jaxb</generateDirectory>
+
+                            <args>
+                                <arg>-Xinheritance</arg>
+                            </args>
+                            <plugins>
+                                <plugin>
+                                    <groupId>org.jvnet.jaxb2_commons</groupId>
+                                    <artifactId>jaxb2-basics</artifactId>
+                                    <version>0.11.0</version>
+                                </plugin>
+                            </plugins>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-
 
 </project>

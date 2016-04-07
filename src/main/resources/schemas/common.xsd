@@ -5,10 +5,23 @@
            targetNamespace="http://www.xsd2model/common"
 >
 
+    <xs:complexType name="BaseType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="id"/>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:complexType name="UserType">
         <xs:sequence>
             <xs:element type="xs:string" name="login"/>
             <xs:element type="xs:string" name="password"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ServerType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="host"/>
+            <xs:element type="xs:string" name="port"/>
         </xs:sequence>
     </xs:complexType>
 
