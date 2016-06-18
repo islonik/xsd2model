@@ -6,32 +6,35 @@
         xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
 >
 
-    <jaxb:bindings schemaLocation="common.xsd" node="/xs:schema">
+    <jaxb:bindings schemaLocation="Request.xsd" node="/xs:schema">
         <jaxb:schemaBindings>
-            <jaxb:package name="org.examples.xsd2model.common"/>
+            <jaxb:package name="org.examples.xsd2model.model.request"/>
         </jaxb:schemaBindings>
     </jaxb:bindings>
 
-    <jaxb:bindings schemaLocation="request.xsd" node="/xs:schema">
+    <jaxb:bindings schemaLocation="Response.xsd" node="/xs:schema">
         <jaxb:schemaBindings>
-            <jaxb:package name="org.examples.xsd2model.request"/>
+            <jaxb:package name="org.examples.xsd2model.model.response"/>
         </jaxb:schemaBindings>
     </jaxb:bindings>
 
-    <jaxb:bindings schemaLocation="response.xsd" node="/xs:schema">
+    <jaxb:bindings schemaLocation="Core.xsd" node="/xs:schema">
         <jaxb:schemaBindings>
-            <jaxb:package name="org.examples.xsd2model.response"/>
+            <jaxb:package name="org.examples.xsd2model.model"/>
         </jaxb:schemaBindings>
     </jaxb:bindings>
 
-    <jaxb:bindings schemaLocation="common.xsd">
-        <jaxb:bindings node="xs:complexType[@name='UserType']">
+    <jaxb:bindings schemaLocation="Request.xsd">
+        <jaxb:bindings node="xs:complexType[@name='RequestType']">
             <jaxb:class/>
-            <inheritance:extends>org.examples.xsd2model.common.BaseType</inheritance:extends>
+            <inheritance:extends>org.examples.xsd2model.model.UserType</inheritance:extends>
         </jaxb:bindings>
-        <jaxb:bindings node="xs:complexType[@name='ServerType']">
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="Response.xsd">
+        <jaxb:bindings node="xs:complexType[@name='ResponseType']">
             <jaxb:class/>
-            <inheritance:extends>org.examples.xsd2model.common.BaseType</inheritance:extends>
+            <inheritance:extends>org.examples.xsd2model.model.UserType</inheritance:extends>
         </jaxb:bindings>
     </jaxb:bindings>
 

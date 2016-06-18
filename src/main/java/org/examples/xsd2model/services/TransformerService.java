@@ -1,9 +1,12 @@
-package org.examples.xsd2model;
+package org.examples.xsd2model.services;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.examples.xsd2model.model.request.RequestType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.*;
 import javax.xml.stream.XMLInputFactory;
@@ -19,17 +22,9 @@ import java.util.function.Supplier;
  */
 public class TransformerService {
 
-    /**
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private final static Logger log = LoggerFactory.getLogger(TransformerService.class);
 
-    static {
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-    }
-    **/
-
-    // or
+    // I don't like static initialization
     private static final ObjectMapper mapper = ((Supplier<ObjectMapper>) () -> {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -38,22 +33,28 @@ public class TransformerService {
         return mapper;
     }).get();
 
+    /**
+     * Such kind of preparation could significantly improve performance.
+     */
+    private static final Unmarshaller requestTypeUnmarshaller = ((Supplier<Unmarshaller>) () -> {
+        try {
+            JAXBContext context = JAXBContext.newInstance(RequestType.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            return unmarshaller;
+        } catch(JAXBException jaxbe) {
+            log.error(jaxbe.getMessage(), jaxbe);
+            System.exit(-1); // -1 like Exception; 0 like Ok; 1 like Error
+            return null;
+        }
+    }).get();
+
+
     public static String object2json(Object object) throws JsonProcessingException {
-        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+        return mapper.writeValueAsString(object);
     }
 
     public static Object json2object(String json, Class className) throws IOException {
         return mapper.readValue(json, className);
-    }
-
-    public static boolean isJson(String json) {
-        try {
-            final ObjectMapper mapper = new ObjectMapper();
-            mapper.readTree(json);
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
     }
 
     public static String object2xml(Object object) {
@@ -71,6 +72,14 @@ public class TransformerService {
 
         Unmarshaller unmarshaller = context.createUnmarshaller();
         return unmarshaller.unmarshal(xmlReader, className).getValue();
+    }
+
+    public static RequestType xmlRequestType2object(String xml) throws Exception {
+        Reader reader = new StringReader(xml);
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        XMLStreamReader xmlReader = factory.createXMLStreamReader(reader);
+
+        return requestTypeUnmarshaller.unmarshal(xmlReader, RequestType.class).getValue();
     }
 
 }

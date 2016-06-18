@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.examples.xsd2model</groupId>
+    <groupId>org.examples</groupId>
     <artifactId>xsd2model</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -22,6 +22,17 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.2</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -35,32 +46,25 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <!-- Don't work with inheritance. RnD? -->
-            <!--plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxb2-maven-plugin</artifactId>
-                <version>2.2</version>
-
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.4</version>
                 <executions>
                     <execution>
-                        <id>xjc-nsn</id>
+                        <id>test</id>
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>xjc</goal>
+                            <goal>add-source</goal>
                         </goals>
                         <configuration>
                             <sources>
-                                <source>src/main/resources/schemas/common.xsd</source>
-                                <source>src/main/resources/schemas/request.xsd</source>
-                                <source>src/main/resources/schemas/response.xsd</source>
+                                <source>${basedir}/target/generated-sources/jaxb2</source>
                             </sources>
-                            <xjbSources>
-                                <xjbSource>src/main/resources/schemas/bindings.xjb</xjbSource>
-                            </xjbSources>
-                            <clearOutputDir>true</clearOutputDir>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin-->
+            </plugin>
             <plugin>
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
                 <artifactId>maven-jaxb2-plugin</artifactId>
@@ -74,12 +78,12 @@
                         <configuration>
                             <schemaDirectory>src/main/resources/schemas</schemaDirectory>
                             <schemaIncludes>
-                                <include>common.xsd</include>
-                                <include>request.xsd</include>
-                                <include>response.xsd</include>
+                                <include>Request.xsd</include>
+                                <include>Response.xsd</include>
+                                <include>Core.xsd</include>
                             </schemaIncludes>
                             <bindingDirectory>src/main/resources/schemas</bindingDirectory>
-                            <generateDirectory>${project.build.directory}/generated-sources/jaxb</generateDirectory>
+                            <generateDirectory>${project.build.directory}/generated-sources/jaxb2</generateDirectory>
 
                             <args>
                                 <arg>-Xinheritance</arg>
@@ -97,5 +101,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>

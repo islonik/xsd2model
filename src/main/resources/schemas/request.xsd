@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Hint: if you want generate xml with namespace then change unqualified to qualified -->
 <xs:schema attributeFormDefault="unqualified"
-           elementFormDefault="unqualified"
+           elementFormDefault="qualified"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:com="http://www.xsd2model/common"
-           xmlns:req="http://www.xsd2model/request"
-           targetNamespace="http://www.xsd2model/request"
+           xmlns:req="http://xsd2model.org/request"
+           xmlns:core="http://xsd2model.org/core"
+           targetNamespace="http://xsd2model.org/request"
 >
-    <xs:import schemaLocation="common.xsd" namespace="http://www.xsd2model/common"/>
+    <xs:import schemaLocation="Core.xsd" namespace="http://xsd2model.org/core"/>
 
     <xs:complexType name="RequestType">
         <xs:sequence>
-            <xs:element type="com:UserType" name="user"/>
+            <xs:element type="core:UserType" name="user"/>
+            <xs:element type="req:Message" name="message" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Message">
+        <xs:sequence>
+            <xs:element type="xs:string" name="log"/>
             <xs:element type="xs:string" name="command"/>
         </xs:sequence>
     </xs:complexType>
