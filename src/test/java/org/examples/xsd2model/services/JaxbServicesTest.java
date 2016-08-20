@@ -3,23 +3,26 @@ package org.examples.xsd2model.services;
 import org.examples.xsd2model.model.UserType;
 import org.examples.xsd2model.model.request.Message;
 import org.examples.xsd2model.model.request.RequestType;
-import org.examples.xsd2model.model.response.ResponseType;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
 
+import javax.xml.bind.JAXBException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * Created by Nikita on 4/1/2016.
+ * Created by nikilipa on 8/20/16.
  */
-public class TransformerServiceTest {
+public class JaxbServicesTest {
 
+    private JaxbServices jaxbServices;
     private UserType userType;
 
     @Before
-    public void setUp() {
+    public void setUp() throws JAXBException {
+        jaxbServices = new JaxbServices();
+
         UserType userType = new UserType();
         userType.setLogin("nikita");
         userType.setPassword("password22");
@@ -37,52 +40,29 @@ public class TransformerServiceTest {
         requestType1.setMessage(message);
 
         // toXml
-        String xml1 = TransformerService.object2xml(requestType1);
+        String xml1 = jaxbServices.object2xml(requestType1);
         // toObject
-        RequestType requestType2 = (RequestType) TransformerService.xml2object(xml1, RequestType.class);
+        RequestType requestType2 = jaxbServices.xml2object(xml1);
         // toXml
-        String xml2 = TransformerService.object2xml(requestType2);
+        String xml2 = jaxbServices.object2xml(requestType2);
+        // toXml using different method
+        RequestType requestType3 = jaxbServices.xml2object(xml1);
+        String xml3 = jaxbServices.object2xml2(requestType3);
 
-        Assert.assertEquals(xml1, xml2);
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
-                "<requestType xmlns:ns2=\"http://xsd2model.org/request\" xmlns:ns3=\"http://xsd2model.org/core\">\n" +
+                "<ns2:requestType xmlns=\"http://xsd2model.org/core\" xmlns:ns2=\"http://xsd2model.org/request\">\n" +
                 "    <ns2:user>\n" +
-                "        <ns3:login>nikita</ns3:login>\n" +
-                "        <ns3:password>password22</ns3:password>\n" +
+                "        <login>nikita</login>\n" +
+                "        <password>password22</password>\n" +
                 "    </ns2:user>\n" +
                 "    <ns2:message>\n" +
                 "        <ns2:log>log-1234567</ns2:log>\n" +
                 "        <ns2:command>mkdir test</ns2:command>\n" +
                 "    </ns2:message>\n" +
-                "</requestType>\n";
+                "</ns2:requestType>\n";
         Assert.assertEquals(xml, xml1);
-    }
-
-    @Test
-    public void testObject2Json2Object2Json() throws Exception {
-        // object
-        ResponseType responseType0 = new ResponseType();
-        responseType0.setUser(userType);
-        responseType0.setCode("0");
-        responseType0.setDesc("Ok!");
-
-        // toJson
-        String json1 = TransformerService.object2json(responseType0);
-        // toObject
-        ResponseType responseType2 = (ResponseType) TransformerService.json2object(json1, ResponseType.class);
-        // toJson
-        String json2 = TransformerService.object2json(responseType2);
-
-        Assert.assertEquals(json1, json2);
-        String json = "{\n" +
-                "  \"user\" : {\n" +
-                "    \"login\" : \"nikita\",\n" +
-                "    \"password\" : \"password22\"\n" +
-                "  },\n" +
-                "  \"code\" : \"0\",\n" +
-                "  \"desc\" : \"Ok!\"\n" +
-                "}";
-        Assert.assertEquals(json.replaceAll("\r", "\n"), json1.replaceAll("\r\n", "\n"));
+        Assert.assertEquals(xml1, xml2);
+        Assert.assertEquals(xml2, xml3);
     }
 
     @Test
@@ -90,7 +70,8 @@ public class TransformerServiceTest {
         final String xmlResponse = new String(Files.readAllBytes(Paths.get("src/test/resources/performance.xml")));
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < 150; i++) {
-            RequestType requestType = TransformerService.xmlRequestType2object(xmlResponse);
+            RequestType requestType = jaxbServices.xml2object(xmlResponse);
+            requestType.getUser().getLogin();
         }
         long endTime = System.currentTimeMillis();
 
@@ -99,4 +80,5 @@ public class TransformerServiceTest {
         System.out.println("Performance test result time = " + resultTime);
         Assert.assertTrue(resultTime < (1000));
     }
+
 }

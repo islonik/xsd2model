@@ -49,17 +49,14 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.4</version>
+                <version>1.10</version>
                 <executions>
                     <execution>
-                        <id>test</id>
                         <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
+                        <goals><goal>add-source</goal></goals>
                         <configuration>
                             <sources>
-                                <source>${basedir}/target/generated-sources/jaxb2</source>
+                                <source>${project.build.directory}/generated-sources/jaxb2</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -84,8 +81,9 @@
                             </schemaIncludes>
                             <bindingDirectory>src/main/resources/schemas</bindingDirectory>
                             <generateDirectory>${project.build.directory}/generated-sources/jaxb2</generateDirectory>
-
+                            <extension>true</extension>
                             <args>
+                                <arg>-Xannotate</arg>
                                 <arg>-Xinheritance</arg>
                             </args>
                             <plugins>
@@ -94,6 +92,11 @@
                                     <artifactId>jaxb2-basics</artifactId>
                                     <version>0.11.0</version>
                                 </plugin>
+                                <plugin>
+                                    <groupId>org.jvnet.jaxb2_commons</groupId>
+                                    <artifactId>jaxb2-basics-annotate</artifactId>
+                                    <version>1.0.2</version>
+                                </plugin>
                             </plugins>
                         </configuration>
                     </execution>
@@ -101,6 +104,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

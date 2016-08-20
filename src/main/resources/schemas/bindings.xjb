@@ -3,9 +3,12 @@
         version="2.1"
         xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:annox="http://annox.dev.java.net"
+        jaxb:extensionBindingPrefixes="xjc annox"
         xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
 >
 
+    <!-- There are we use two extensions: inheritance and annox for annotations -->
     <jaxb:bindings schemaLocation="Request.xsd" node="/xs:schema">
         <jaxb:schemaBindings>
             <jaxb:package name="org.examples.xsd2model.model.request"/>
@@ -27,6 +30,7 @@
     <jaxb:bindings schemaLocation="Request.xsd">
         <jaxb:bindings node="xs:complexType[@name='RequestType']">
             <jaxb:class/>
+            <annox:annotateClass>@javax.xml.bind.annotation.XmlRootElement</annox:annotateClass>
             <inheritance:extends>org.examples.xsd2model.model.UserType</inheritance:extends>
         </jaxb:bindings>
     </jaxb:bindings>
