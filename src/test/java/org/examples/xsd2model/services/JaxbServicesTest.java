@@ -50,7 +50,7 @@ public class JaxbServicesTest {
         String xml3 = jaxbServices.object2xml2(requestType3);
 
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
-                "<ns2:requestType xmlns=\"http://xsd2model.org/core\" xmlns:ns2=\"http://xsd2model.org/request\">\n" +
+                "<ns2:requestType xmlns=\"http://xsd2model.org/examples/xsd2model/model/core\" xmlns:ns2=\"http://xsd2model.org/examples/xsd2model/model/request\">\n" +
                 "    <ns2:user>\n" +
                 "        <login>nikita</login>\n" +
                 "        <password>password22</password>\n" +

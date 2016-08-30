@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hint: if you want generate xml with namespace then change unqualified to qualified -->
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:core="http://xsd2model.org/examples/xsd2model/model/core"
+           xmlns:res="http://xsd2model.org/examples/xsd2model/model/response"
+           targetNamespace="http://xsd2model.org/examples/xsd2model/model/response"
+>
+
+    <xs:import schemaLocation="Core.xsd" namespace="http://xsd2model.org/examples/xsd2model/model/core"/>
+
+    <xs:complexType name="ResponseType">
+        <xs:sequence>
+            <xs:element type="core:UserType" name="user"/>
+            <xs:element type="xs:string" name="code"/>
+            <xs:element type="xs:string" name="desc"/>
+            <xs:element type="res:Body" name="Body" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Body">
+        <xs:sequence>
+            <xs:element type="xs:string" name="log"/>
+            <xs:element type="xs:string" name="command"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
