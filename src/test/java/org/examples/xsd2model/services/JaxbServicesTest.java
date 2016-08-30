@@ -71,7 +71,8 @@ public class JaxbServicesTest {
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < 150; i++) {
             RequestType requestType = jaxbServices.xml2object(xmlResponse);
-            requestType.getUser().getLogin();
+            Assert.assertNotNull(requestType.getUser());
+            Assert.assertNotNull(requestType.getUser().getLogin());
         }
         long endTime = System.currentTimeMillis();
 
