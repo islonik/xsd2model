@@ -85,6 +85,8 @@
                             <args>
                                 <arg>-Xannotate</arg>
                                 <arg>-Xinheritance</arg>
+                                <!-- this arg will delete package-info.java -->
+                                <!--arg>-npa</arg-->
                             </args>
                             <plugins>
                                 <plugin>
